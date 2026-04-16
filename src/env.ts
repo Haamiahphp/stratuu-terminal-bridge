@@ -15,6 +15,6 @@ export const env = {
 if (env.jwtSecret.length < 32) {
   throw new Error('TERMINAL_JWT_SECRET must be ≥ 32 chars');
 }
-if (env.keyMaster.length !== 64) {
+if (!/^[0-9a-fA-F]{64}$/.test(env.keyMaster)) {
   throw new Error('TERMINAL_KEY_MASTER must be 64 hex chars (32 bytes)');
 }
