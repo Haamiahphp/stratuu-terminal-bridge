@@ -130,11 +130,11 @@ const server = Bun.serve<ConnCtx>({
         ctx.ssh = ssh;
         ssh.stream.on('data', (chunk: Buffer) => {
           ctx.bytesOut += chunk.length;
-          ws.send(chunk);
+          if (ws.readyState === 1) ws.send(chunk);
         });
         ssh.stream.stderr?.on('data', (chunk: Buffer) => {
           ctx.bytesOut += chunk.length;
-          ws.send(chunk);
+          if (ws.readyState === 1) ws.send(chunk);
         });
         ssh.stream.on('close', () => {
           void finish(ctx, 'ssh_close');
