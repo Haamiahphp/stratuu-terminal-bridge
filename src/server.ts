@@ -185,3 +185,15 @@ const server = Bun.serve<ConnCtx>({
 });
 
 console.log(`[bridge] listening on :${server.port}`);
+
+// Drain active connections on SIGTERM (Coolify sends this on redeploy).
+// `stop(true)` tells Bun to close existing connections; client `close` handlers
+// then fire and flush `terminal_sessions.ended_at` via `finish()`.
+process.on('SIGTERM', () => {
+  console.log('[bridge] SIGTERM received, draining');
+  server.stop(true);
+});
+process.on('SIGINT', () => {
+  console.log('[bridge] SIGINT received, draining');
+  server.stop(true);
+});
