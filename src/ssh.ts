@@ -59,7 +59,7 @@ export async function openSshSession(params: {
     conn.connect({
       host: params.host,
       port: params.port ?? 22,
-      username: params.username ?? 'stratuu',
+      username: params.username ?? 'root',
       privateKey: params.privateKey,
       readyTimeout: 10_000,
     });
